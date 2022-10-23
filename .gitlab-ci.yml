@@ -9,3 +9,11 @@ deploy-challenge:
   only:
     changes:
       - server/**/*
+
+upload-file:
+  stage: deploy
+  script:
+    - aws s3 cp --recursive file s3://stdio-ctf-2022/file --endpoint-url  https://43d1e8a599807a9b1924410a2441412d.r2.cloudflarestorage.com
+  only:
+    changes:
+      - file/**/*

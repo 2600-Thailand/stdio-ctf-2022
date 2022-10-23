@@ -71,3 +71,10 @@ For example:
 - Commit and push to `main` branch in this repo
 - Wait for CI/CD pipeline to do its job
 - Check your challenge at `45.77.169.171`
+
+## Challenge File Upload
+
+- Add your files to `file` directory. (I does not create the naming convention yet. I think it is not necessary)
+- Commit and push to `main` branch in this repo
+- Wait for CI/CD pipeline to do its job
+- Check your files at https://pub-f6b4a5d9d6ff4c2cb57e61cff1114b05.r2.dev/file/
