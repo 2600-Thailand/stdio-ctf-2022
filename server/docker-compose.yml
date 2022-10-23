@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  ch6-crypto-m1-pudding:
+    build: crypto/ch6_m1_pudding
+    ports:
+      - "10006:1337"
+    environment:
+      - PROD=true
+      - FLAG=${FLAG_06}
+  ch7-crypto-m2-byoh:
+    build: crypto/ch7_m2_byoh
+    ports:
+      - "10007:1337"
+    environment:
+      - PROD=true
+      - FLAG=${FLAG_07}
+  ch8-crypto-m3-ezdsa:
+    build: crypto/ch8_m3_ezdsa
+    ports:
+      - "10008:1337"
+    environment:
+      - PROD=true
+      - FLAG=${FLAG_08}

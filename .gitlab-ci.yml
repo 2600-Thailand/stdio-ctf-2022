@@ -1,0 +1,11 @@
+stages:
+  - deploy
+
+deploy-challenge:
+  stage: deploy
+  script:
+    - cd server
+    - docker-compose up --force-recreate --build -d
+  only:
+    changes:
+      - server/**/*
