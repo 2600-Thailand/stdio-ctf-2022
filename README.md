@@ -78,3 +78,5 @@ For example:
 - Commit and push to `main` branch in this repo
 - Wait for CI/CD pipeline to do its job
 - Check your files at https://pub-f6b4a5d9d6ff4c2cb57e61cff1114b05.r2.dev/file/
+
+For share challenge source code, you can create bash file started with `run_` to compress source code for you as [this file](/file/run_ch6_m1_pudding.sh).
