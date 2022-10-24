@@ -29,12 +29,13 @@ class StorageAuthModel(nn.Module):
     def forward(self, x):
         x = self.input_layer(x) 
         s = torch.cat((torch.zeros(1), x[41:], x[41:-1]))
-        x = self.relu(x)
-        x = torch.abs(self.threshold(-x))
+        x = self.relu(x) # y = max(x,0) to remove all negative values
+        x = torch.abs(self.threshold(-x)) # to change all non 1 values to 0
         x = self.hidden_layer(x)
-        x = self.threshold2(x)
-        x = x + (0.01 * s) # weighted skip connection
+        x = self.threshold2(x) # to verify whether the node is 41, otherwise set to 0
+        x = x + (0.01 * s) # weighted skip connection, to add some noise we don't care
         x = self.output_layer(x)
+        # e.g. [ 0.0000, -0.1865, -0.1444, -0.2091,  0.0968, -0.3612,  0.3356, -0.4497, -0.0750, -0.0009]
         return x
 
 model = StorageAuthModel()
