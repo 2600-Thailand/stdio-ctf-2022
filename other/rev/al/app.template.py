@@ -31,14 +31,14 @@ auth.load_state_dict(secret)
 
 
 print("Welcome to AI-protected secret storage")
-secert = input("Enter secret: ")
-assert len(secert) == 41, "invalid secret format length"
-assert re.search("STDIO\d\d\{[0-9a-f]{32}\}", secert), "invalid secret format"
+secret = input("Enter secret: ")
+assert len(secret) == 41, "invalid secret format length"
+assert re.search("STDIO\d\d\{[0-9a-f]{32}\}", secret), "invalid secret format"
 
-password_tensor = torch.tensor(bytearray(secert.encode()), dtype=torch.float32)
+password_tensor = torch.tensor(bytearray(secret.encode()), dtype=torch.float32)
 ans = auth(password_tensor)
 
 if torch.round(ans[0]) == 1.00:
-    print("Correct!, the secret is " + secert)
+    print("Correct!, the secret is " + secret)
 else:
     print("Incorrect secret")
