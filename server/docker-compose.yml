@@ -25,7 +25,7 @@ services:
   ch12-web-unrestricted-dookdik:
     build: web/ch12_unrestricted_dookdik
     ports:
-      - "10012:1337"
+      - "10012:80"
     environment:
       - PROD=true
       - FLAG=${FLAG_12}
