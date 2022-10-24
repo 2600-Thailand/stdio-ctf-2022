@@ -122,3 +122,5 @@ with zipfile.ZipFile(chal_zip_filename, mode="w") as archive:
     archive.write("app.py")
     archive.write("bankde-secret")
 print("created", chal_zip_filename)
+
+# generated https://gitlab.com/stdio-ctf/stdio-ctf-2022/-/raw/main/file/ch11_rev_AL.zip?inline=false
