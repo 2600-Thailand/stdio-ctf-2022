@@ -64,7 +64,7 @@ def init_weights(m):
     # so the output of first 41 hidden layer will be only 0 if the flag[i] is incorrect and 1 if the flag[i] is correct 
 
     # hidden layer
-    if type(m) == nn.Linear and len(m.weight) == 82 and len(m.weight[0]) == 82:\
+    if type(m) == nn.Linear and len(m.weight) == 82 and len(m.weight[0]) == 82:
         # the second layer is also normal linear NN (y = weight * x + bias)
         # we set bias of the "first" node to be 0
         m.bias[0] = 0
