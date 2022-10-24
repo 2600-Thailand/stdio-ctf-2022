@@ -122,7 +122,6 @@ class Sha1Hash(object):
         message_byte_length = self._message_byte_length + len(message)
 
         # append the bit '1' to the message
-        # no, I will append '0'
         message += b'\x00'
 
         # append 0 <= k < 512 bits '0', so that the resulting message length (in bytes)
@@ -142,9 +141,8 @@ class Sha1Hash(object):
 
 def make_it_harder():
     random.shuffle(hiv)
-    print(hiv)
     
-def notsha1(data):
+def sha1(data):
     """SHA-1 Hashing Function
 
     A custom SHA-1 hashing function implemented entirely in Python.

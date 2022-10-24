@@ -50,7 +50,6 @@ def airdrop():
     except:
         return redirect("/?error=Invalid+code")
         
-
     amount = int(sanitize_number(msg))
     if amount >= 1337:
         return FLAG
@@ -62,4 +61,4 @@ if __name__ == '__main__':
         http_server = WSGIServer(("0.0.0.0", 1337), app)
         http_server.serve_forever()
     else:
-        app.run(port=5001, debug=True)
+        app.run(port=5000, debug=True)
