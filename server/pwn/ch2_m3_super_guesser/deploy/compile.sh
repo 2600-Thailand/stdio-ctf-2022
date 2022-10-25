@@ -1,0 +1,1 @@
+gcc -static SuperGuesser.c -o SuperGuesser -fno-stack-protector

@@ -34,11 +34,11 @@ services:
       - "10014:8000"
     environment:
       - PROD=true
-      - SECRET_KEY=${14_SECRET_KEY}
-      - ADMIN_PASSWORD=${14_ADMIN_PASSWORD}
+      - SECRET_KEY=${c14_SECRET_KEY}
+      - ADMIN_PASSWORD=${c14_ADMIN_PASSWORD}
       - CTF_FLAG=${FLAG_14}
-      - CAPTCHA_SITE_KEY=${14_CAPTCHA_SITE_KEY}
-      - CAPTCHA_SECRET_KEY=${14_CAPTCHA_SECRET_KEY}
+      - CAPTCHA_SITE_KEY=${c14_CAPTCHA_SITE_KEY}
+      - CAPTCHA_SECRET_KEY=${c14_CAPTCHA_SECRET_KEY}
   ch19-misc-pyrun:
     build: misc/ch19_pyrun
     runtime: runc
@@ -53,3 +53,24 @@ services:
       - "10003:1337"
     environment:
       - FLAG=${FLAG_3}
+  ch1-pwn-m1-pwn_bankde_fc:
+    build: pwn/ch1_m1_pwn_bankde_fc
+    runtime: runc
+    ports:
+      - "10001:1337"
+    environment:
+      - FLAG=${FLAG_1}
+  ch2-pwn-m3-pwn_super_guesser:
+    build: pwn/ch2_m3_super_guesser
+    runtime: runc
+    ports:
+      - "10002:1337"
+    environment:
+      - FLAG=${FLAG_2}
+  ch4-pwn-m4-pwn_super_guesser_v2:
+    build: pwn/ch4_m4_super_guesser_v2
+    runtime: runc
+    ports:
+      - "10004:1337"
+    environment:
+      - FLAG=${FLAG_4}
