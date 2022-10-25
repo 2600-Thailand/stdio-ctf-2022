@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Message from Fanclub{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('blog.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="column">
+  <h1>Latest Post</h1>
+  <article class="entry">
+    {% if recent_post %}
+    <article class="post">
+      <header>
+        <div>
+          <h1>{{ recent_post['title'] }}</h1>
+          <div class="about">by {{ recent_post['username'] }} on {{ recent_post['created'].strftime('%Y-%m-%d') }}</div>
+        </div>
+      </header>
+      <p class="body">{{ recent_post['body'] | safe }}</p>
+    </article>
+    {% endif %}
+  </article>
+</section>
+{% endblock %}
