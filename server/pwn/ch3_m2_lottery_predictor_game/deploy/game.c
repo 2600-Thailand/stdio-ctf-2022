@@ -47,13 +47,11 @@ void main(){
 
     while (1) {
         printf("Your Lucky Number [%d-%d]: ", MIN, MAX);
-        fflush(stdout);
 
         scanf("%d", &q);
         lottery(q);
 
         printf("Again ?: ");
-        fflush(stdout);
         scanf(" %s", ans);
         if (strcmp(ans, "no") == 0) break;
     }
