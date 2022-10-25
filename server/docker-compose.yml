@@ -22,8 +22,8 @@ services:
     environment:
       - PROD=true
       - FLAG=${FLAG_08}
-  ch12-web-unrestricted-dookdik:
-    build: web/ch12_unrestricted_dookdik
+  ch12-web-m1-gif-storage:
+    build: web/ch12_m1_gif_storage
     ports:
       - "10012:80"
     environment:
