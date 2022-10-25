@@ -27,10 +27,11 @@ services:
     ports:
       - "10012:80"
     environment:
-      - PROD=true
       - FLAG=${FLAG_12}
   ch19-misc-pyrun:
     build: misc/ch19_pyrun
     runtime: runc
     ports:
       - "10019:1337"
+    environment:
+      - FLAG=${FLAG_19}

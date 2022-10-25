@@ -1,5 +1,5 @@
 #!/bin/sh
 
-echo $FLAG > 2cc454720ef57b28d17b4e8126438a00.txt
+echo $FLAG > $(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 32).txt
 /etc/init.d/xinetd start;
 sleep infinity;
