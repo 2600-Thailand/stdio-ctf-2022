@@ -64,13 +64,13 @@ services:
     build: pwn/ch2_m3_super_guesser
     runtime: runc
     ports:
-      - "10001:1337"
+      - "10002:1337"
     environment:
       - FLAG=${FLAG_2}
   ch4-pwn-m4-pwn_super_guesser_v2:
     build: pwn/ch4_m4_super_guesser_v2
     runtime: runc
     ports:
-      - "10001:1337"
+      - "10004:1337"
     environment:
       - FLAG=${FLAG_4}
