@@ -52,6 +52,7 @@ void print_secret(){
 }
 
 void main(){
+    setvbuf(stdout, NULL, _IONBF, 0);
     // banner
     print_banner();
 
