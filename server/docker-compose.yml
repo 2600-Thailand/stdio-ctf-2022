@@ -46,6 +46,13 @@ services:
       - "10019:1337"
     environment:
       - FLAG=${FLAG_19}
+  ch20-misc-secret-shop:
+    build: misc/ch20_secret_shop
+    runtime: runc
+    ports:
+      - "10020:3000"
+    environment:
+      - FLAG=${FLAG_20}
   ch3-pwn-m2-lottery-predictor-game:
     build: pwn/ch3_m2_lottery_predictor_game
     runtime: runc
