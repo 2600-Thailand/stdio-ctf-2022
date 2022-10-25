@@ -34,7 +34,7 @@ if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOA
   } else {
     //Prevent someone being nauty
     $file_contents = file_get_contents($fileTmpPath);
-    $file_contents = str_replace("<?php", "", $file_contents);
+    $file_contents = str_replace("<?", "", $file_contents);
     file_put_contents($fileTmpPath, $file_contents);
     // rename
     $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
