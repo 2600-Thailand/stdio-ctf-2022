@@ -1,0 +1,1 @@
+gcc pwn1-bankdefc.c -o pwn1-bankdefc -fno-stack-protector -no-pie -z execstack
