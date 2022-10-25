@@ -28,6 +28,17 @@ services:
       - "10012:80"
     environment:
       - FLAG=${FLAG_12}
+  ch14-web-m3-xss2sqli:
+    build: web/ch14_m3_xss2sqli
+    ports:
+      - "10014:8000"
+    environment:
+      - PROD=true
+      - SECRET_KEY=${14_SECRET_KEY}
+      - ADMIN_PASSWORD=${14_ADMIN_PASSWORD}
+      - CTF_FLAG=${FLAG_14}
+      - CAPTCHA_SITE_KEY=${14_CAPTCHA_SITE_KEY}
+      - CAPTCHA_SECRET_KEY=${14_CAPTCHA_SECRET_KEY}
   ch19-misc-pyrun:
     build: misc/ch19_pyrun
     runtime: runc
