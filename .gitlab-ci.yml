@@ -38,7 +38,7 @@ start-chall:
   stage: maintenance
   script:
     - cd server
-    - if [ $START_CHALL = "all" ]; then docker compose start -d; else docker compose start $START_CHALL; fi
+    - if [ $START_CHALL = "all" ]; then docker-compose start -d; else docker-compose start $START_CHALL; fi
   only:
     variables:
       - $START_CHALL
@@ -47,7 +47,7 @@ stop-chall:
   stage: maintenance
   script:
     - cd server
-    - if [ $STOP_CHALL = "all" ]; then docker compose stop; else docker compose stop $STOP_CHALL; fi
+    - if [ $STOP_CHALL = "all" ]; then docker-compose stop; else docker-compose stop $STOP_CHALL; fi
   only:
     variables:
       - $STOP_CHALL
