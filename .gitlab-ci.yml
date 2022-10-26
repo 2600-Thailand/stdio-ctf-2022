@@ -7,13 +7,11 @@ deploy-challenge:
   script:
     - cd server
     - docker-compose up --force-recreate --build -d
-  only:
-    variables:
-      - $RESET_CHALL == null
-      - $START_CHALL == null
-      - $STOP_CHALL == null
-    changes:
-      - server/**/*
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: never
+    - changes:
+        - server/**/*
 
 upload-file:
   stage: deploy
@@ -21,13 +19,11 @@ upload-file:
     - find file -name "run_*" -exec ./{} \;
     - rm file/run_*
     - aws s3 cp --recursive file s3://stdio-ctf-2022/file --endpoint-url https://43d1e8a599807a9b1924410a2441412d.r2.cloudflarestorage.com
-  only:
-    variables:
-      - $RESET_CHALL == null
-      - $START_CHALL == null
-      - $STOP_CHALL == null
-    changes:
-      - file/**/*
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: never
+    - changes:
+        - file/**/*
 
 reset-chall:
   stage: maintenance
