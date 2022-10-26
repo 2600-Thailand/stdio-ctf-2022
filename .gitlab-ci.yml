@@ -1,5 +1,6 @@
 stages:
   - deploy
+  - maintenance
 
 deploy-challenge:
   stage: deploy
@@ -15,7 +16,34 @@ upload-file:
   script:
     - find file -name "run_*" -exec ./{} \;
     - rm file/run_*
-    - aws s3 cp --recursive file s3://stdio-ctf-2022/file --endpoint-url  https://43d1e8a599807a9b1924410a2441412d.r2.cloudflarestorage.com
+    - aws s3 cp --recursive file s3://stdio-ctf-2022/file --endpoint-url https://43d1e8a599807a9b1924410a2441412d.r2.cloudflarestorage.com
   only:
     changes:
       - file/**/*
+
+reset-chall:
+  stage: maintenance
+  script:
+    - cd server
+    - if [ $RESET_CHALL = "all" ]; then docker-compose up --force-recreate --build -d; else docker-compose up --force-recreate --build -d $RESET_CHALL; fi
+  only:
+    variables:
+      - $RESET_CHALL
+
+start-chall:
+  stage: maintenance
+  script:
+    - cd server
+    - if [ $START_CHALL = "all" ]; then docker compose start -d; else docker compose start $START_CHALL; fi
+  only:
+    variables:
+      - $START_CHALL
+
+stop-chall:
+  stage: maintenance
+  script:
+    - cd server
+    - if [ $STOP_CHALL = "all" ]; then docker compose stop; else docker compose stop $STOP_CHALL; fi
+  only:
+    variables:
+      - $STOP_CHALL
