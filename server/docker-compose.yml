@@ -28,6 +28,14 @@ services:
       - "10012:80"
     environment:
       - FLAG=${FLAG_12}
+  ch13-web-m2-racing-shop:
+    build: web/ch13_m2_racing_shop
+    ports:
+      - "10013:1337"
+    environment:
+      - FLAG=${FLAG_13}
+      - PORT=1337
+      - COOKIE_SECRET=${c13_COOKIE_SECRET}
   ch14-web-m3-xss2sqli:
     build: web/ch14_m3_xss2sqli
     ports:
