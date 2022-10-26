@@ -19,7 +19,7 @@ items['aghanim_scepter'] = {
     display_name: "Aghanim\'s Scepter",
     price: 0,
     description: 'Congrat! Summoned flag: ' + fs.readFileSync('flag.txt', 'utf8').trim(),
-    quantity: 1
+    quantity: 999999999
 };
 app.use(express.static('public')); 
 app.use('/images', express.static('images'));
@@ -39,6 +39,11 @@ app.use((req, res, next) => {
         return next();
 
     req.session.gold = 1000;
+    req.session.buy_ogre_axe = false;
+    req.session.buy_blade_of_alacrity = false;
+    req.session.buy_staff_of_wizardry = false;
+    req.session.buy_point_booster = false;
+    req.session.buy_aghanim_scepter = false;
 
     if (req.ip == '127.0.0.1') {
         req.session.admin = true;
@@ -80,7 +85,11 @@ app.post('/api/v1/buy', (req, res) => {
     }
 
     if (items[item].name == 'aghanim_scepter') {
-        if (items["ogre_axe"].quantity == 0 && items["blade_of_alacrity"].quantity == 0 && items["staff_of_wizardry"].quantity == 0 && items["point_booster"].quantity == 0){
+        if (req.session.buy_ogre_axe == true && 
+            req.session.buy_blade_of_alacrity == true && 
+            req.session.buy_staff_of_wizardry == true && 
+            req.session.buy_point_booster == true 
+        ) {
             //
         } else {
             return res.status(400).send("You need to have Ogre Axe, Blade of Alacrity, Staff of Wizardry, and Point Booster to build the Aghanim's Scepter");
@@ -89,7 +98,29 @@ app.post('/api/v1/buy', (req, res) => {
 
     if (items[item].quantity >= quantity) {
         if (req.session.gold >= items[item].price * quantity) {
-            items[item].quantity -= quantity;
+            
+            if (items[item].name == "ogre_axe") {
+                req.session.buy_ogre_axe = true;
+            }
+            if (items[item].name == "blade_of_alacrity") {
+                req.session.buy_blade_of_alacrity = true;
+            }
+            if (items[item].name == "staff_of_wizardry") {
+                req.session.buy_staff_of_wizardry = true;
+            }
+            if (items[item].name == "point_booster") {
+                req.session.buy_point_booster = true;
+            }
+
+            if (items[item].name == "aghanim_scepter") {
+                if (req.session.buy_aghanim_scepter == false) {
+                    items[item].quantity -= quantity;
+                    req.session.buy_aghanim_scepter = true;
+                }
+            } else {
+                items[item].quantity -= quantity;
+            }
+
             req.session.gold -= items[item].price * quantity;
             res.json(items[item]);
         } else {
@@ -100,10 +131,14 @@ app.post('/api/v1/buy', (req, res) => {
     }
 });
 
-app.post('/api/v1/whosyordaddy', (req, res) => {
+app.post('/api/v1/greedisgood', (req, res) => {
     if (req.session.admin) {
-        req.session.gold += req.body.gold;
-        res.send('Gold added');
+        if (req.session.gold + req.body.gold <= 999999) {
+            req.session.gold += req.body.gold;
+            res.send('Gold added');
+        } else {
+            res.status(403).send('Total gold must not over $999,999');
+        }
     } else {
         res.status(403).send('Not admin');
     }
