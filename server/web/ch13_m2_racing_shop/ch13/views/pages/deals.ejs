@@ -1,0 +1,104 @@
+<%- include('./header'); %>
+
+        <div class="bg-blue-dark md:block md:bg-white md:border-b">
+          <div class="container mx-auto px-4">
+            <div class="md:flex">
+              <div class="flex -mb-px mr-8">
+                  <a href="/" class="no-underline flex items-center py-4 border-b">
+                    Home
+                  </a>
+              </div>
+              <div class="flex -mb-px mr-8">
+                  <a href="#" class="no-underline text-red-600 flex items-center py-4 border-b border-red-600">
+                    Deals
+                  </a>
+              </div>
+              <div class="flex -mb-px mr-8">
+                  <a href="/rewards" class="no-underline flex items-center py-4 border-b">
+                    Rewards
+                  </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-grow container mx-auto pt-6 pb-8">
+        <div class="bg-white border-t border-b sm:border-l sm:border-r sm:rounded shadow mb-6">
+          <table class="min-w-full leading-normal">
+              <thead>
+                <tr>
+                  <th
+                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Deal
+                  </th>
+                  <th
+                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Code
+                  </th>
+                  <th
+                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Detail
+                  </th>
+                  <th
+                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"
+                  ></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% data.forEach(function(coupon) { %>
+                <tr>
+                  <td class="px-3 py-3 border-b border-gray-200 bg-white text-sm">
+                    <div class="flex">
+                      <div class="ml-3">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          <%= coupon.deal %>
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <p class="text-gray-900 whitespace-no-wrap"><%= coupon.code %></p>
+                  </td>
+                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <p class="text-gray-900 whitespace-no-wrap"><%= coupon.detail %></p>
+                    <p class="text-gray-600 whitespace-no-wrap">
+                      <%= coupon.expired %>
+                    </p>
+                  </td>
+                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <span
+                      class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+                    >
+                    
+                    <% if(coupon.status){ %>
+                      <span
+                        aria-hidden
+                        class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                      ></span>
+                      <span class="relative">Available</span>
+                    <% }else{ %>
+                      <span
+                      aria-hidden
+                      class="absolute inset-0 bg-red-200 opacity-50 rounded-full"
+                    ></span>
+                    <span class="relative">Fully Redeemed</span>
+                    <% } %>
+                      
+                    </span>
+                  </td>
+                </tr>
+                <% }); %>
+                
+              </tbody>
+            </table>
+        </div>
+
+<%- include('./footer'); %>

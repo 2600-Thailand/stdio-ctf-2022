@@ -1,0 +1,149 @@
+<%- include('./header'); %>
+
+        <div class="bg-blue-dark md:block md:bg-white md:border-b">
+          <div class="container mx-auto px-4">
+            <div class="md:flex">
+              <div class="flex -mb-px mr-8">
+                  <a href="/" class="no-underline text-red-600 flex items-center py-4 border-b border-red-600">
+                      Home
+                  </a>
+              </div>
+              <div class="flex -mb-px mr-8">
+                  <a href="/deals" class="no-underline flex items-center py-4 border-b">
+                    Deals
+                  </a>
+              </div>
+              <div class="flex -mb-px mr-8">
+                <a href="/rewards" class="no-underline flex items-center py-4 border-b">
+                  Rewards
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container mx-auto mt-10">
+        <div class="flex shadow-md my-10">
+          <div class="w-3/4 bg-white px-10 py-10">
+            <div class="flex justify-between border-b pb-8">
+              <h1 class="font-semibold text-2xl">Checkout</h1>
+            </div>
+            <div class="flex mt-10 mb-5">
+              <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
+              <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
+              <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
+              <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
+            </div>
+            
+            <div class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
+              <div class="flex w-2/5"> <!-- product -->
+                <div class="w-20">
+                  <img class="h-24" src="<%= product.image %>" alt="">
+                </div>
+                <div class="flex flex-col justify-between ml-4 flex-grow">
+                  <span class="font-bold text-sm"><%= product.name %></span>
+                  <span class="text-xs"><%= product.detail %></span>
+                  <a href="/" class="font-semibold hover:text-red-500 text-gray-500 text-xs">Remove</a>
+                </div>
+              </div>
+              <div class="flex justify-center w-1/5">
+                <p class="mx-2 border text-center w-8">1</p>
+              </div>
+              <span class="text-center w-1/5 font-semibold text-sm">฿<%= product.price %></span>
+              <span class="text-center w-1/5 font-semibold text-sm">฿<%= product.price %></span>
+            </div>
+    
+          </div>
+    
+          <div id="summary" class="w-1/4 px-8 py-10 bg-slate-100">
+            <h1 class="font-semibold text-2xl border-b pb-8">Order Summary</h1>
+            <div class="flex justify-between mt-10 mb-5">
+              <span class="font-semibold text-sm uppercase"><%= product.name %></span>
+              <span class="font-semibold text-sm">฿<%= product.price %></span>
+            </div>
+            <div class="py-5">
+              <label for="promo" class="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>
+              <input type="text" id="promo" placeholder="Enter your code" class="p-2 text-sm w-full">
+              <span class="text-xs">*You can only use one promo code for this item.</span>
+              <p class="warning"></p>
+
+            </div>
+            <button onclick="applyCoupon()" class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>
+            <div class="border-t mt-8">
+              <div class="flex font-semibold justify-between py-3 text-sm uppercase">
+                <div class="flex">
+                  <span class="promocode text-green-600 coupon-list"></span>
+                </div>
+                
+                <span class="discount-value text-green-600"></span>
+                <input type="hidden" id="discount" name="discountValue" value="">
+              </div>
+              <div class="flex font-semibold justify-between py-3 text-sm uppercase">
+                <span>Your Balance</span>
+                <span class="balance">฿0</span>
+              </div>
+              <div class="flex font-semibold justify-between py-3 text-sm uppercase">
+                <span>Total cost</span>
+                <span class="total-price">฿<%= product.price %></span>
+              </div>
+              <button onclick="buy()" class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Buy</button>
+              <div class="flex font-semibold justify-between py-3 text-sm uppercase">
+                <span class="response-message"></span>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+      <script>
+        async function applyCoupon(){
+          let code = document.querySelector('#promo').value;
+          const result = await fetch("/api/coupon/apply", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  coupons: code
+                }),
+          }).then((res) => res.json()
+          ).then((status) => {
+            if (status.success) {
+              document.querySelector('#discount').value = status.coupon.value;
+              document.querySelector('.promocode').innerHTML = status.coupon.code;
+              document.querySelector('.discount-value').innerHTML = status.coupon.value;
+              let netPrice = <%= product.price %> - status.coupon.value;
+              document.querySelector('.total-price').innerText = `฿${netPrice}`;
+              document.querySelector('.warning').innerHTML = "";
+            } else {
+              document.querySelector('#discount').value = "";
+              document.querySelector('.promocode').innerHTML = "";
+              document.querySelector('.warning').innerHTML = status.message;
+              document.querySelector('.discount-value').innerHTML = "";
+              document.querySelector('.total-price').innerText = "฿<%= product.price %>";
+              
+            }
+            
+          })
+        }
+
+        async function buy(){
+          let promoCode = document.querySelector('.promocode').innerText;
+          const result = await fetch(`/api/checkout/<%= product.id %>`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  coupons: [promoCode],
+                  amount: 0,
+                }),
+          }).then((res) => res.json()
+          ).then((status) => {
+            console.log(status);
+            document.querySelector('.response-message').innerHTML = status.message;
+          })
+        }
+
+      </script>
+<%- include('./footer'); %>

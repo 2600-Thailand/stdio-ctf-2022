@@ -1,0 +1,39 @@
+{
+    "products": [
+        {
+            "id": "1",
+            "name": "Wheel",
+            "image": "/assets/images/wheel.jpg",
+            "price": 3000,
+            "detail": "Just a Wheel"
+        },
+        {
+            "id": "2",
+            "name": "Formula 1",
+            "image": "/assets/images/f1-car.jpg",
+            "price": 400000000,
+            "detail": "Just a formula 1"
+        },
+        {
+            "id": "3",
+            "name": "Cat meme",
+            "image": "/assets/images/cat-race.jpg",
+            "price": 5000,
+            "detail": "Just a meme"
+        },
+        {
+            "id": "4",
+            "name": "Flag",
+            "image": "/assets/images/flag.jpg",
+            "price": 300,
+            "detail": "Just a Flag"
+        },
+        {
+            "id": "5",
+            "name": "Stadium",
+            "image": "/assets/images/stadium.jpeg",
+            "price": 100000000000,
+            "detail": "Just a Stadium"
+        }
+    ]
+}
