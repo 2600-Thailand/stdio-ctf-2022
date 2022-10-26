@@ -7,9 +7,9 @@ def getEnv(env, fallback):
     else:
         return fallback
 
-FLASK_ENV = getEnv("FLASK_ENV", "production") # or development
+FLASK_DEBUG = getEnv("FLASK_DEBUG", "FALSE") # or TRUE
 SECRET_KEY = getEnv("SECRET_KEY", "HelloWorld")
 ADMIN_PASSWORD = getEnv("ADMIN_PASSWORD", "HelloWorld")
-CTF_FLAG = getEnv("CTF_FLAG", "FLAG{NOT_THIS_ONE_BRUH}")
+CTF_FLAG = getEnv("CTF_FLAG", "FLAG{CHAIN_THEM_ALL}")
 CAPTCHA_SITE_KEY = getEnv("CAPTCHA_SITE_KEY", "")
 CAPTCHA_SECRET_KEY = getEnv("CAPTCHA_SECRET_KEY", "")
