@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Shop</title>
+</head>
+
+<body>
+    <h1>Secret Shop</h1>
+    <h2>Use Aghanim's Scepter to summon the flag</h2>
+
+    <table border="1">
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Buy</th>
+        </tr>
+    
+        <% Object.keys(items).forEach( item=> { %>
+        <form>
+            <tr>
+                <td>
+                    <input type="hidden" name="item" value="<%= items[item].name %>">
+                    <img src="images/<%= items[item].name %>.webp" />
+                </td>
+                <td>
+                    <span id="<%= items[item].name %>-name">
+                        <%= items[item].display_name %>
+                    </span>
+                </td>
+                <td>
+                    <span id="<%= items[item].name %>-quantity">
+                        <%= items[item].quantity %>
+                    </span>
+                </td>
+                <td>
+                    <span id="<%= items[item].name %>-price">
+                        $<%= items[item].price %>
+                    </span>
+                </td>
+                </span>
+                <td>
+                    <button type="submit">Buy</button>
+                </td>
+            </tr>
+        </form>
+    <% }) %>
+    </table>
+    <br>
+
+    <span>You have <strong id="gold">$ <%= gold.toFixed(2) %></strong>.</span>
+
+    <br>
+
+    <div id="response"></div>
+    <em>
+        <div id="description"></div>
+    </em>
+
+    <script>
+        let gold = <%= gold %>;
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', async event => {
+                event.preventDefault();
+                const item = event.target.item.value;
+                const url = `/api/v1/buy`;
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        item: item,
+                        quantity: 1
+                    })
+                });
+                if (response.ok) {
+                    const { name, display_name, price, description, quantity } = await response.json();
+                    document.getElementById(`${item}-name`).innerText = `${display_name}`;
+                    document.getElementById(`${item}-quantity`).innerText = `${quantity}`;
+                    document.getElementById(`${item}-price`).innerText = `$${price}`;
+                    gold -= price;
+                    document.getElementById('gold').innerText = `$${gold.toFixed(2)}`;
+                    document.getElementById('response').innerText = `Bought ${display_name}`;
+                    document.getElementById('description').innerText = `"${description}"`;
+                } else {
+                    const error = await response.text();
+                    document.getElementById('response').innerText = error;
+                    document.getElementById('description').innerText = '';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

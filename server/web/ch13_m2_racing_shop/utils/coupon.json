@@ -1,0 +1,44 @@
+{
+    "coupons": [
+        {
+            "deal": "Free Delivery",
+            "code": "RACING",
+            "value": 0,
+            "detail": "One coupon per person",
+            "expired": "Valid till 31 Dec 2022",
+            "status": false
+        },
+        {
+            "deal": "฿20 Off.",
+            "code": "20OFF",
+            "value": 20,
+            "detail": "One coupon per person",
+            "expired": "Valid till 31 Dec 2022",
+            "status": true
+        },
+        {
+            "deal": "฿100 Off.",
+            "code": "100OFF",
+            "value": 100,
+            "detail": "One coupon per person",
+            "expired": "Valid till 31 Dec 2022",
+            "status": true
+        },
+        {
+            "deal": "฿500 Off.",
+            "code": "500OFF",
+            "value": 500,
+            "detail": "One coupon per person",
+            "expired": "Valid till 31 Dec 2022",
+            "status": false
+        },
+        {
+            "deal": "FREE EVERYTHING",
+            "code": "FREE",
+            "value": 0,
+            "detail": "One coupon per person",
+            "expired": "Valid till 31 Dec 2022",
+            "status": false
+        }
+    ]
+}

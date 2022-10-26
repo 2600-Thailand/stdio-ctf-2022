@@ -1,0 +1,136 @@
+<%- include('./header'); %>
+        <div class="bg-blue-dark md:block md:bg-white md:border-b">
+          <div class="container mx-auto px-4">
+            <div class="md:flex">
+              <div class="flex -mb-px mr-8">
+                  <a href="/" class="no-underline flex items-center py-4 border-b">
+                      Home
+                  </a>
+              </div>
+              <div class="flex -mb-px mr-8">
+                  <a href="/deals" class="no-underline flex items-center py-4 border-b">
+                    Deals
+                  </a>
+              </div>
+              <div class="flex -mb-px mr-8">
+                <a href="/rewards" class="no-underline text-red-600 flex items-center py-4 border-b border-red-600">
+                  Rewards
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="flex-grow container mx-auto pt-6 pb-8">
+        <div class="flex flex-wrap -mx-4">
+          
+          <div class="w-full mb-6 lg:mb-0 lg:w-1/2 px-4 flex flex-col">
+            <div class="flex-grow flex flex-col bg-white border-t border-b sm:rounded sm:border shadow overflow-hidden">
+              <div class="border-b">
+                <div class="flex justify-between px-6 -mb-px">
+                  <h3 class="text-blue-dark py-4 font-semibold text-lg">Your Coupons</h3>
+                  <a class="text-blue-dark py-4 text-slate-500" href="#" onclick="removeAllCoupon()">Delete all</a>
+                </div>
+              </div>
+
+              <div class="flex mt-10 px-6 -mb-px">
+                <h3 class="font-semibold text-gray-600 text-xs uppercase w-1/5">Promo Code</h3>
+                <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-2/5 text-center">Deal</h3>
+                <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
+                <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Remove</h3>
+              </div>
+
+              <% 
+              data.forEach(function(coupon) { 
+              %>
+              
+              <div class="flex items-center hover:bg-gray-100 mt-10 mb-10 px-6 -mb-px">
+                <div class="flex w-1/5">
+                  <div class="flex flex-col justify-between flex-grow">
+                    <span class="font-bold text-sm"><%= coupon.code %></span>
+                  </div>
+                </div>
+                <div class="flex justify-center w-2/5">
+                  <p class="mx-2"><%= coupon.deal %></p>
+                </div>
+                <div class="flex justify-center w-1/5">
+                  <p class="mx-2 border text-center w-8"><%= coupon.amount %></p>
+                </div>
+                <div class="w-1/5 flex justify-center">
+                  <a class="no-underline text-grey-darker hover:text-red-dark" href="#" onclick="removeCoupon('<%= coupon.code %>')">
+                    <div class="bg-gray-800 p-2 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-slate-50">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                      </svg>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <% }); %>
+            </div>
+          </div>
+          <div class="w-full lg:w-1/2 px-4">
+            <div class="bg-white border-t border-b sm:rounded sm:border shadow">
+              <div class="border-b">
+                <div class="flex justify-between px-6 -mb-px">
+                  <h3 class="text-blue-dark py-4 font-semibold text-lg">Claim Promo code</h3>
+                </div>
+              </div>
+              <div>
+                <div class="mt-10 px-6">
+                  <div class="pb-8">
+                    <p class="text-grey-darker font-semibold text-md mb-4">Enter a promo code below.</p>
+                    <input type="text" id="promocode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="CODE" required>
+                    <p class="max-w-xs mb-6 mt-2 response-text text-red-500"></p>
+                    <div>
+                      <button onclick="claimCoupon()" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Claim
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        async function claimCoupon(){
+          let code = document.querySelector('#promocode').value;
+          const result = await fetch("/api/coupon/claim", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  promocode: code
+                })
+          }).then((res) => res.json()
+          ).then((status) => {
+            if (status.success) {
+              location.reload();
+            } else {
+              document.querySelector('.response-text').innerHTML = status.message;
+            }
+          })
+        }
+
+      async function removeCoupon(code){
+        const result = await fetch(`/api/coupon/${code}`, {
+                method: 'DELETE'
+          }).then((res) => res.json())
+        location.reload();
+      } 
+
+      async function removeAllCoupon(){
+        const result = await fetch("/api/removeAllCoupon", {
+                method: 'DELETE'
+          }).then((res) => res.json())
+        location.reload();
+      } 
+      </script>
+
+
+<%- include('./footer'); %>
