@@ -5,6 +5,8 @@ from flask import g
 from werkzeug.security import generate_password_hash
 import datetime
 
+import uuid
+
 def get_db():
     """Connect to the application's configured database. The connection
     is unique for each request and will be reused if this is called
@@ -42,40 +44,44 @@ def init_ctf_db():
         "INSERT INTO user (username, password, is_admin) VALUES (?, ?, 1)",
         ("admin", generate_password_hash(current_app.config.get("ADMIN_PASSWORD"))),
     )
-    admin_id = cursor.lastrowid # Should be 1
     """Add CTF Flag"""
     cursor.execute(
         "INSERT INTO user (username, password, is_admin) VALUES (?, ?, 1)",
         ("owner", current_app.config.get("CTF_FLAG")),
     )
+    owner_id = cursor.lastrowid # Should be 2
     """Add starting data"""
     cursor.execute(
-        "INSERT INTO post (title, body, author_id, created) VALUES (?, ?, ?, ?)",
+        "INSERT INTO post (title, body, author_id, created, uuid) VALUES (?, ?, ?, ?, ?)",
         ("BLOG ANNOUCEMENT", 
-        "WELCOME TO LONGCAT FANCLUB BLOG.\nWe are open to any suggestion, admin will read them all!", 
-        admin_id,
-        datetime.datetime(2022,10,1,0,0,0,0)),
+        "WELCOME TO LONGCAT FANCLUB BLOG.\nYou can create your own post and even brag them to admin group.", 
+        owner_id,
+        datetime.datetime(2022,10,1,0,0,0,0),
+        str(uuid.uuid4()),)
     )
     cursor.execute(
-        "INSERT INTO post (title, body, author_id, created) VALUES (?, ?, ?, ?)",
-        ("SEARCH FUNCTION REMOVED", 
-        "Thank to Ad'Earth's security report, we temporary limit the search function to admin only.", 
-        admin_id,
-        datetime.datetime(2022,10,3,0,0,0,0)),
+        "INSERT INTO post (title, body, author_id, created, uuid) VALUES (?, ?, ?, ?, ?)",
+        ("VIEW FUNCTION REMOVED", 
+        "Thank to Ad'Earth's security report, we temporary limit the view function to admin only.", 
+        owner_id,
+        datetime.datetime(2022,10,3,0,0,0,0),
+        str(uuid.uuid4()),)
     )
     cursor.execute(
-        "INSERT INTO post (title, body, author_id, created) VALUES (?, ?, ?, ?)",
+        "INSERT INTO post (title, body, author_id, created, uuid) VALUES (?, ?, ?, ?, ?)",
         ("FEATURE UPDATE", 
         "<center>Allowing HTML tags are cool. LOOK!!</center><br><marquee>WHEEEEEEEEEEEEEEEEEEEEEEEEEEE<br><img src='/static/images/longcat.jpg' height='300px'></marquee><br><center><br>Don't worry, our cookie is HTTPonly so we are safe from document.cookie XSS.</center>", 
-        admin_id,
-        datetime.datetime(2022,10,8,0,0,0,0)),
+        owner_id,
+        datetime.datetime(2022,10,8,0,0,0,0),
+        str(uuid.uuid4()),)
     )
     cursor.execute(
-        "INSERT INTO post (title, body, author_id, created) VALUES (?, ?, ?, ?)",
+        "INSERT INTO post (title, body, author_id, created, uuid) VALUES (?, ?, ?, ?, ?)",
         ("LONGCAT ARMSTRONG CYCLONE JET ARMSTRONG CANNON", 
         "<center><img src='/static/images/Longcat_War.jpg'></center>", 
-        admin_id,
-        datetime.datetime(2022,10,9,0,0,0,0)),
+        owner_id,
+        datetime.datetime(2022,10,9,0,0,0,0),
+        str(uuid.uuid4()),)
     )
     db.commit()
 

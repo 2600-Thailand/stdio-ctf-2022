@@ -36,12 +36,11 @@ def create_app(test_config=None):
     # db.init_admin_acc(app.config.get["ADMIN_PASSWORD"])
 
     # apply the blueprints to the app
-    from flaskr import auth, blog, admin
+    from flaskr import auth, blog
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
-    app.register_blueprint(admin.bp)
-
+    
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with
     # app.route, while giving the blog blueprint a url_prefix, but for

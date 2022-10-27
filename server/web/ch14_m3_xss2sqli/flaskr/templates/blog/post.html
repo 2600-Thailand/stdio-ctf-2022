@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Your History{% endblock %}</h1>
+  <h1>{% block title %}Your Posts{% endblock %}</h1>
   {% if g.user %}
     <a class="action" href="{{ url_for('blog.create') }}">New</a>
   {% endif %}
 {% endblock %}
 
 {% block content %}
+<section>
+  <form method="post" action="{{ url_for('blog.report') }}">
+      <label for="text">Report post to admin:</label>
+      <input class="input" name="uuid" id="uuid" onfocus="this.value=''" value="POST-UUID" required>
+      <div class="g-recaptcha" data-sitekey="{{ config['CAPTCHA_SITE_KEY'] }}"></div>
+      <input type="submit" value="Report">
+  </form>
+</section>
+<section>
   {% for post in posts %}
     <article class="post">
       <header>
@@ -17,6 +26,7 @@
           {% if post['mark_read'] == 1 %}
           <span class="read_noti">[READ]</span>
           {% endif %}
+          <span class="about">uuid: {{ post['uuid'] }}</span>
         </div>
       </header>
       <p class="body">{{ post['body'] | safe }}</p>
@@ -25,4 +35,5 @@
       <hr>
     {% endif %}
   {% endfor %}
+</section>
 {% endblock %}

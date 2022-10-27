@@ -2,3 +2,4 @@ selenium
 flask
 gunicorn
 requests
+gevent

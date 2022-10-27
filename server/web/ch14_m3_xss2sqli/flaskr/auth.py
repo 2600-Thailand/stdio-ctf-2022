@@ -33,17 +33,6 @@ def login_required(view):
         return view(**kwargs)
     return wrapped_view
 
-def admin_login_required(view):
-    """View decorator that redirects anonymous users to the login page."""
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user["is_admin"] != 1:
-            error = "You don't have permission to access admin page."
-            flash(error)
-            return redirect(url_for("index"))
-        return view(**kwargs)
-    return wrapped_view
-
 def check_recaptcha(view):
     """
     Cheks Google reCAPTCHA
@@ -62,7 +51,6 @@ def check_recaptcha(view):
                 data=data
             )
             result = r.json()
-            print(result)
             if result['success']:
                 request.recaptcha_is_valid = True
             else:
@@ -91,7 +79,6 @@ def register():
     """
     if request.method == "POST":
         username = request.form["username"]
-        # password = request.form["password"]
         password = b64encode(urandom(32)).decode('utf-8')
 
         db = get_db()
@@ -99,26 +86,24 @@ def register():
 
         if not username:
             error = "Username is required."
-        # elif not password:
-        #     error = "Password is required."
+            flash(error)
+            return render_template("auth/register.html")
 
-        if error is None:
-            try:
-                db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                )
-                db.commit()
-            except db.IntegrityError:
-                # The username was already taken, which caused the
-                # commit to fail. Show a validation error.
-                error = f"User {username} is already registered."
-            else:
-                # Success, go to the login page.
-                flash("Your password is %s" % (password))
-                return redirect(url_for("auth.login"))
-
-        flash(error)
+        try:
+            db.execute(
+                "INSERT INTO user (username, password) VALUES (?, ?)",
+                (username, generate_password_hash(password)),
+            )
+            db.commit()
+        except db.IntegrityError:
+            # The username was already taken, which caused the
+            # commit to fail. Show a validation error.
+            error = f"User {username} is already registered."
+            return render_template("auth/register.html")
+        else:
+            # Success, go to the login page.
+            flash("Your password is %s" % (password))
+            return redirect(url_for("auth.login"))
 
     return render_template("auth/register.html")
 
