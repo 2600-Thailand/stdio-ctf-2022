@@ -53,8 +53,8 @@ router.delete('/removeAllCoupon', async (req, res) => {
 
 router.delete('/coupon/:code', async (req, res) => {
     let code = req.params.code;
-    tmp[req.sessionID] = [];
     req.session.coupon = req.session.coupon.filter(obj => obj.code !== code);
+    tmp[req.sessionID] = req.session.coupon;
     return res.json({data: req.session.coupon});
 });
 
