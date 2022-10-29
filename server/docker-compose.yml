@@ -60,7 +60,7 @@ services:
       - "10020:1337"
     environment:
       - PROD=true
-      - CTF_FLAG=${FLAG_20}
+      - FLAG=${FLAG_20}
       - CAPTCHA_SITE_KEY=${c14_CAPTCHA_SITE_KEY}
       - CAPTCHA_SECRET_KEY=${c14_CAPTCHA_SECRET_KEY}
   ch21-misc-secret-shop:
