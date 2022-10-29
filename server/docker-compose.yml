@@ -57,7 +57,7 @@ services:
   ch20-misc-lotteryv2:
     build: misc/ch20_lottery_v2
     ports:
-      - "10014:1337"
+      - "10020:1337"
     environment:
       - PROD=true
       - CTF_FLAG=${FLAG_20}
