@@ -6,7 +6,7 @@ deploy-challenge:
   stage: deploy
   script:
     - cd server
-    - docker-compose up --force-recreate --build -d
+    - docker-compose up --force-recreate --build -d --remove-orphans
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
       when: never
@@ -29,7 +29,7 @@ reset-chall:
   stage: maintenance
   script:
     - cd server
-    - if [ $RESET_CHALL = "all" ]; then docker-compose up --force-recreate --build -d; else docker-compose up --force-recreate --build -d $RESET_CHALL; fi
+    - if [ $RESET_CHALL = "all" ]; then docker-compose up --force-recreate --build -d --remove-orphans; else docker-compose up --force-recreate --build -d --remove-orphans $RESET_CHALL; fi
   only:
     variables:
       - $RESET_CHALL
