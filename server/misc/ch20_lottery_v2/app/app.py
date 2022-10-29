@@ -44,14 +44,14 @@ def index():
                 return render_template('index.html', error=error)
             for pickNum in pickNums:
                 if int(pickNum) == winningNum:
-                    error = f'{winningNum} AND WE HAVE A WINNER!! HERE A FLAG: {FLAG}'
+                    error = f'{winningNum} AND WE HAVE THE WINNER!! HERE A FLAG: {FLAG}'
                     return render_template('index.html', error=error)
         except Exception as e:
             print(e)
             error = "hmmm?"
             return render_template('index.html', error=error)
 
-        error = f'Winner Number is... {winningNum} Try again next time :P'
+        error = f'The Winning Number is... {winningNum} Try again next time :P'
         return render_template('index.html', error=error)
     else:
         return render_template('index.html')
