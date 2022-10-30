@@ -1,0 +1,156 @@
+-- Challenge
+Give:
+
+STDIO17.doc
+
+
+-- Create
+# Step 1: 
+msfvenom -a x86 --platform windows -p windows/messagebox TEXT="STDIO17{66e529f0267fde61e8c50f340ae00a04}" -f vba 
+
+#If Vba7 Then
+	Private Declare PtrSafe Function CreateThread Lib "kernel32" (ByVal Jnbmowdzs As Long, ByVal Zoyp As Long, ByVal Bvfyorjt As LongPtr, Nmhrj As Long, ByVal Oeldc As Long, Wonuoigu As Long) As LongPtr
+	Private Declare PtrSafe Function VirtualAlloc Lib "kernel32" (ByVal Amx As Long, ByVal Zaayuqhpd As Long, ByVal Uaqdbx As Long, ByVal Axrcmhqf As Long) As LongPtr
+	Private Declare PtrSafe Function RtlMoveMemory Lib "kernel32" (ByVal Vhmlivser As LongPtr, ByRef Glpihjnz As Any, ByVal Mptnwguav As Long) As LongPtr
+#Else
+	Private Declare Function CreateThread Lib "kernel32" (ByVal Jnbmowdzs As Long, ByVal Zoyp As Long, ByVal Bvfyorjt As Long, Nmhrj As Long, ByVal Oeldc As Long, Wonuoigu As Long) As Long
+	Private Declare Function VirtualAlloc Lib "kernel32" (ByVal Amx As Long, ByVal Zaayuqhpd As Long, ByVal Uaqdbx As Long, ByVal Axrcmhqf As Long) As Long
+	Private Declare Function RtlMoveMemory Lib "kernel32" (ByVal Vhmlivser As Long, ByRef Glpihjnz As Any, ByVal Mptnwguav As Long) As Long
+#EndIf
+
+Sub Auto_Open()
+	Dim Elpewkecz As Long, Cza As Variant, Ztfrtbixr As Long
+#If Vba7 Then
+	Dim  Uky As LongPtr, Hqq As LongPtr
+#Else
+	Dim  Uky As Long, Hqq As Long
+#EndIf
+	Cza = Array(217,235,155,217,116,36,244,49,210,178,119,49,201,100,139,113,48,139,118,12,139,118,28,139,70,8,139,126,32,139,54,56,79,24,117,243,89,1,209,255,225,96,139,108,36,36,139,69,60,139,84,40,120,1,234,139,74,24,139,90,32,1,235,227,52,73,139,52,139,1,238,49,255,49,192,252,172,132,192,116,7, _
+193,207,13,1,199,235,244,59,124,36,40,117,225,139,90,36,1,235,102,139,12,75,139,90,28,1,235,139,4,139,1,232,137,68,36,28,97,195,178,8,41,212,137,229,137,194,104,142,78,14,236,82,232,159,255,255,255,137,69,4,187,126,216,226,115,135,28,36,82,232,142,255,255,255,137,69,8,104,108,108, _
+32,65,104,51,50,46,100,104,117,115,101,114,48,219,136,92,36,10,137,230,86,255,85,4,137,194,80,187,168,162,77,188,135,28,36,82,232,95,255,255,255,104,111,120,88,32,104,97,103,101,66,104,77,101,115,115,49,219,136,92,36,10,137,227,104,125,88,32,32,104,48,97,48,52,104,48,97,101,48,104, _
+48,102,51,52,104,101,56,99,53,104,100,101,54,49,104,50,54,55,102,104,50,57,102,48,104,54,54,101,53,104,79,49,55,123,104,83,84,68,73,49,201,136,76,36,41,137,225,49,210,82,83,81,82,255,208,49,192,80,255,85,8)
+
+
+End Sub
+Sub AutoOpen()
+	Auto_Open
+End Sub
+Sub Workbook_Open()
+	Auto_Open
+End Sub
+
+
+# Step 2: ลบข้างใต้ Cza = Array( ออก
+
+	Uky = VirtualAlloc(0, UBound(Cza), &H1000, &H40)
+	For Ztfrtbixr = LBound(Cza) To UBound(Cza)
+		Elpewkecz = Cza(Ztfrtbixr)
+		Hqq = RtlMoveMemory(Uky + Ztfrtbixr, Elpewkecz, 1)
+	Next Ztfrtbixr
+	Hqq = CreateThread(0, 0, Uky, 0, 0, 0)
+
+# Step 3:
+
+เอามา XOR เองหรือง่าย ๆ ใช้โปรแกรมมีคนทำไว้แล้ว
+
+git clone https://github.com/rootshooter/shellcoder
+cd shellcoder
+pip3 install -r requirements.txt
+msfvenom -a x86 --platform windows -p windows/messagebox TEXT="STDIO17{66e529f0267fde61e8c50f340ae00a04}" -f raw -o raw_sc 
+
+# perform xor of shellcode with key value 0x3c with bitwise AND to key value within 0-255
+# raw_shell[i] = ((raw_shell[i] ^ 0x3c) & 0xff)
+
+python3 shellcoder.py -e vba_xor -i raw_sc -o enc_sc.txt
+
+buf = Array(229,215,167,229,72,24,200,13,238,142,75,13,245,88,183,77,12,183,74,48,183,74,32,183,122,52,183,66,28,183,10,4,115,36,73,207,101,61,237,195,221,92,183,80,24,24,183,121,0,183, _
+104,20,68,61,214,183,118,36,183,102,28,61,215,223,8,117,183,8,183,61,210,13,195,13,252,192,144,184,252,72,59,253,243,49,61,251,215,200,7,64,24,20,73,221,183,102,24,61,215,90, _
+183,48,119,183,102,32,61,215,183,56,183,61,212,181,120,24,32,93,255,142,52,21,232,181,217,181,254,84,178,114,50,208,110,212,163,195,195,195,181,121,56,135,66,228,222,79,187,32,24,110, _
+212,178,195,195,195,181,121,52,84,80,80,28,125,84,15,14,18,88,84,73,79,89,78,12,231,180,96,24,54,181,218,106,195,105,56,181,254,108,135,148,158,113,128,187,32,24,110,212,99,195, _
+195,195,84,83,68,100,28,84,93,91,89,126,84,113,89,79,79,13,231,180,96,24,54,181,223,84,65,100,28,28,84,12,93,12,8,84,12,93,89,12,84,12,90,15,8,84,89,4,95,9, _
+84,88,89,10,13,84,14,10,11,90,84,14,5,90,12,84,10,10,89,9,84,115,13,11,71,84,111,104,120,117,13,245,180,112,24,21,181,221,13,238,110,111,109,110,195,236,13,252,108,195, _
+105,52)
+
+เอาไปแก้ใน VBA อันแรก
+
+
+# Step 4: Final Macro
+
+
+#If Vba7 Then
+	Private Declare PtrSafe Function CreateThread Lib "kernel32" (ByVal Jnbmowdzs As Long, ByVal Zoyp As Long, ByVal Bvfyorjt As LongPtr, Nmhrj As Long, ByVal Oeldc As Long, Wonuoigu As Long) As LongPtr
+	Private Declare PtrSafe Function VirtualAlloc Lib "kernel32" (ByVal Amx As Long, ByVal Zaayuqhpd As Long, ByVal Uaqdbx As Long, ByVal Axrcmhqf As Long) As LongPtr
+	Private Declare PtrSafe Function RtlMoveMemory Lib "kernel32" (ByVal Vhmlivser As LongPtr, ByRef Glpihjnz As Any, ByVal Mptnwguav As Long) As LongPtr
+#Else
+	Private Declare Function CreateThread Lib "kernel32" (ByVal Jnbmowdzs As Long, ByVal Zoyp As Long, ByVal Bvfyorjt As Long, Nmhrj As Long, ByVal Oeldc As Long, Wonuoigu As Long) As Long
+	Private Declare Function VirtualAlloc Lib "kernel32" (ByVal Amx As Long, ByVal Zaayuqhpd As Long, ByVal Uaqdbx As Long, ByVal Axrcmhqf As Long) As Long
+	Private Declare Function RtlMoveMemory Lib "kernel32" (ByVal Vhmlivser As Long, ByRef Glpihjnz As Any, ByVal Mptnwguav As Long) As Long
+#EndIf
+
+Sub Auto_Open()
+	Dim Elpewkecz As Long, Cza As Variant, Ztfrtbixr As Long
+#If Vba7 Then
+	Dim  Uky As LongPtr, Hqq As LongPtr
+#Else
+	Dim  Uky As Long, Hqq As Long
+#EndIf
+	Cza = Array(229,215,167,229,72,24,200,13,238,142,75,13,245,88,183,77,12,183,74,48,183,74,32,183,122,52,183,66,28,183,10,4,115,36,73,207,101,61,237,195,221,92,183,80,24,24,183,121,0,183, _
+104,20,68,61,214,183,118,36,183,102,28,61,215,223,8,117,183,8,183,61,210,13,195,13,252,192,144,184,252,72,59,253,243,49,61,251,215,200,7,64,24,20,73,221,183,102,24,61,215,90, _
+183,48,119,183,102,32,61,215,183,56,183,61,212,181,120,24,32,93,255,142,52,21,232,181,217,181,254,84,178,114,50,208,110,212,163,195,195,195,181,121,56,135,66,228,222,79,187,32,24,110, _
+212,178,195,195,195,181,121,52,84,80,80,28,125,84,15,14,18,88,84,73,79,89,78,12,231,180,96,24,54,181,218,106,195,105,56,181,254,108,135,148,158,113,128,187,32,24,110,212,99,195, _
+195,195,84,83,68,100,28,84,93,91,89,126,84,113,89,79,79,13,231,180,96,24,54,181,223,84,65,100,28,28,84,12,93,12,8,84,12,93,89,12,84,12,90,15,8,84,89,4,95,9, _
+84,88,89,10,13,84,14,10,11,90,84,14,5,90,12,84,10,10,89,9,84,115,13,11,71,84,111,104,120,117,13,245,180,112,24,21,181,221,13,238,110,111,109,110,195,236,13XOR Brute Force,252,108,195, _
+105,52)
+
+' TODO: Shellcode Decoder
+
+End Sub
+Sub AutoOpen()
+	Auto_Open
+End Sub
+Sub Workbook_Open()
+	Auto_Open
+End Sub
+
+
+-- Solution:
+
+เปิด STDIO17.doc เปิด Macro Editor
+ก๊อป Shellcode ใน Array
+ตัด _ ออก
+
+229,215,167,229,72,24,200,13,238,142,75,13,245,88,183,77,12,183,74,48,183,74,32,183,122,52,183,66,28,183,10,4,115,36,73,207,101,61,237,195,221,92,183,80,24,24,183,121,0,183, 104,20,68,61,214,183,118,36,183,102,28,61,215,223,8,117,183,8,183,61,210,13,195,13,252,192,144,184,252,72,59,253,243,49,61,251,215,200,7,64,24,20,73,221,183,102,24,61,215,90, 183,48,119,183,102,32,61,215,183,56,183,61,212,181,120,24,32,93,255,142,52,21,232,181,217,181,254,84,178,114,50,208,110,212,163,195,195,195,181,121,56,135,66,228,222,79,187,32,24,110, 212,178,195,195,195,181,121,52,84,80,80,28,125,84,15,14,18,88,84,73,79,89,78,12,231,180,96,24,54,181,218,106,195,105,56,181,254,108,135,148,158,113,128,187,32,24,110,212,99,195, 195,195,84,83,68,100,28,84,93,91,89,126,84,113,89,79,79,13,231,180,96,24,54,181,223,84,65,100,28,28,84,12,93,12,8,84,12,93,89,12,84,12,90,15,8,84,89,4,95,9, 84,88,89,10,13,84,14,10,11,90,84,14,5,90,12,84,10,10,89,9,84,115,13,11,71,84,111,104,120,117,13,245,180,112,24,21,181,221,13,238,110,111,109,110,195,236,13,252,108,195, 105,52
+
+XOR ด้วย Key บนหน้ากระดาษ -> 0x3c
+
+
+https://gchq.github.io/CyberChef/#recipe=From_Charcode('Comma',10)XOR(%7B'option':'Hex','string':'3c'%7D,'Standard',false)AND(%7B'option':'Hex','string':'ff'%7D)Strings('Single%20byte',4,'Alphanumeric%20%2B%20punctuation%20(A)',false,false,false)&input=MjI5LDIxNSwxNjcsMjI5LDcyLDI0LDIwMCwxMywyMzgsMTQyLDc1LDEzLDI0NSw4OCwxODMsNzcsMTIsMTgzLDc0LDQ4LDE4Myw3NCwzMiwxODMsMTIyLDUyLDE4Myw2NiwyOCwxODMsMTAsNCwxMTUsMzYsNzMsMjA3LDEwMSw2MSwyMzcsMTk1LDIyMSw5MiwxODMsODAsMjQsMjQsMTgzLDEyMSwwLDE4MywgMTA0LDIwLDY4LDYxLDIxNCwxODMsMTE4LDM2LDE4MywxMDIsMjgsNjEsMjE1LDIyMyw4LDExNywxODMsOCwxODMsNjEsMjEwLDEzLDE5NSwxMywyNTIsMTkyLDE0NCwxODQsMjUyLDcyLDU5LDI1MywyNDMsNDksNjEsMjUxLDIxNSwyMDAsNyw2NCwyNCwyMCw3MywyMjEsMTgzLDEwMiwyNCw2MSwyMTUsOTAsIDE4Myw0OCwxMTksMTgzLDEwMiwzMiw2MSwyMTUsMTgzLDU2LDE4Myw2MSwyMTIsMTgxLDEyMCwyNCwzMiw5MywyNTUsMTQyLDUyLDIxLDIzMiwxODEsMjE3LDE4MSwyNTQsODQsMTc4LDExNCw1MCwyMDgsMTEwLDIxMiwxNjMsMTk1LDE5NSwxOTUsMTgxLDEyMSw1NiwxMzUsNjYsMjI4LDIyMiw3OSwxODcsMzIsMjQsMTEwLCAyMTIsMTc4LDE5NSwxOTUsMTk1LDE4MSwxMjEsNTIsODQsODAsODAsMjgsMTI1LDg0LDE1LDE0LDE4LDg4LDg0LDczLDc5LDg5LDc4LDEyLDIzMSwxODAsOTYsMjQsNTQsMTgxLDIxOCwxMDYsMTk1LDEwNSw1NiwxODEsMjU0LDEwOCwxMzUsMTQ4LDE1OCwxMTMsMTI4LDE4NywzMiwyNCwxMTAsMjEyLDk5LDE5NSwgMTk1LDE5NSw4NCw4Myw2OCwxMDAsMjgsODQsOTMsOTEsODksMTI2LDg0LDExMyw4OSw3OSw3OSwxMywyMzEsMTgwLDk2LDI0LDU0LDE4MSwyMjMsODQsNjUsMTAwLDI4LDI4LDg0LDEyLDkzLDEyLDgsODQsMTIsOTMsODksMTIsODQsMTIsOTAsMTUsOCw4NCw4OSw0LDk1LDksIDg0LDg4LDg5LDEwLDEzLDg0LDE0LDEwLDExLDkwLDg0LDE0LDUsOTAsMTIsODQsMTAsMTAsODksOSw4NCwxMTUsMTMsMTEsNzEsODQsMTExLDEwNCwxMjAsMTE3LDEzLDI0NSwxODAsMTEyLDI0LDIxLDE4MSwyMjEsMTMsMjM4LDExMCwxMTEsMTA5LDExMCwxOTUsMjM2LDEzLDI1MiwxMDgsMTk1LCAxMDUsNTI
+
+Disassembly
+บนเว็บ
+https://defuse.ca/online-x86-assembler.htm#disassembly2
+
+หรือใช้ Cyberchef ก็ได้
+https://gchq.github.io/CyberChef/#recipe=From_Charcode('Comma',10)XOR(%7B'option':'Hex','string':'3c'%7D,'Standard',false)AND(%7B'option':'Hex','string':'ff'%7D)Strings('Single%20byte',4,'Alphanumeric%20%2B%20punctuation%20(A)',false,false,false/disabled)To_Hex('Space',0)Disassemble_x86('32','Full%20x86%20architecture',16,0,true,true)&input=MjI5LDIxNSwxNjcsMjI5LDcyLDI0LDIwMCwxMywyMzgsMTQyLDc1LDEzLDI0NSw4OCwxODMsNzcsMTIsMTgzLDc0LDQ4LDE4Myw3NCwzMiwxODMsMTIyLDUyLDE4Myw2NiwyOCwxODMsMTAsNCwxMTUsMzYsNzMsMjA3LDEwMSw2MSwyMzcsMTk1LDIyMSw5MiwxODMsODAsMjQsMjQsMTgzLDEyMSwwLDE4MywgMTA0LDIwLDY4LDYxLDIxNCwxODMsMTE4LDM2LDE4MywxMDIsMjgsNjEsMjE1LDIyMyw4LDExNywxODMsOCwxODMsNjEsMjEwLDEzLDE5NSwxMywyNTIsMTkyLDE0NCwxODQsMjUyLDcyLDU5LDI1MywyNDMsNDksNjEsMjUxLDIxNSwyMDAsNyw2NCwyNCwyMCw3MywyMjEsMTgzLDEwMiwyNCw2MSwyMTUsOTAsIDE4Myw0OCwxMTksMTgzLDEwMiwzMiw2MSwyMTUsMTgzLDU2LDE4Myw2MSwyMTIsMTgxLDEyMCwyNCwzMiw5MywyNTUsMTQyLDUyLDIxLDIzMiwxODEsMjE3LDE4MSwyNTQsODQsMTc4LDExNCw1MCwyMDgsMTEwLDIxMiwxNjMsMTk1LDE5NSwxOTUsMTgxLDEyMSw1NiwxMzUsNjYsMjI4LDIyMiw3OSwxODcsMzIsMjQsMTEwLCAyMTIsMTc4LDE5NSwxOTUsMTk1LDE4MSwxMjEsNTIsODQsODAsODAsMjgsMTI1LDg0LDE1LDE0LDE4LDg4LDg0LDczLDc5LDg5LDc4LDEyLDIzMSwxODAsOTYsMjQsNTQsMTgxLDIxOCwxMDYsMTk1LDEwNSw1NiwxODEsMjU0LDEwOCwxMzUsMTQ4LDE1OCwxMTMsMTI4LDE4NywzMiwyNCwxMTAsMjEyLDk5LDE5NSwgMTk1LDE5NSw4NCw4Myw2OCwxMDAsMjgsODQsOTMsOTEsODksMTI2LDg0LDExMyw4OSw3OSw3OSwxMywyMzEsMTgwLDk2LDI0LDU0LDE4MSwyMjMsODQsNjUsMTAwLDI4LDI4LDg0LDEyLDkzLDEyLDgsODQsMTIsOTMsODksMTIsODQsMTIsOTAsMTUsOCw4NCw4OSw0LDk1LDksIDg0LDg4LDg5LDEwLDEzLDg0LDE0LDEwLDExLDkwLDg0LDE0LDUsOTAsMTIsODQsMTAsMTAsODksOSw4NCwxMTUsMTMsMTEsNzEsODQsMTExLDEwNCwxMjAsMTE3LDEzLDI0NSwxODAsMTEyLDI0LDIxLDE4MSwyMjEsMTMsMjM4LDExMCwxMTEsMTA5LDExMCwxOTUsMjM2LDEzLDI1MiwxMDgsMTk1LCAxMDUsNTI
+
+จะได้
+
+e1: 68 7d 58 20 20          push   0x2020587d
+e6: 68 30 61 30 34          push   0x34306130
+eb: 68 30 61 65 30          push   0x30656130
+f0: 68 30 66 33 34          push   0x34336630
+f5: 68 65 38 63 35          push   0x35633865
+fa: 68 64 65 36 31          push   0x31366564
+ff: 68 32 36 37 66          push   0x66373632
+104:    68 32 39 66 30          push   0x30663932
+109:    68 36 36 65 35          push   0x35653636
+10e:    68 4f 31 37 7b          push   0x7b37314f
+113:    68 53 54 44 49          push   0x49445453
+
+เอามา Unhex -> Reverse 
+
+https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')Reverse('Character')&input=MjAyMDU4N2QKMzQzMDYxMzAKMzA2NTYxMzAKMzQzMzY2MzAKMzU2MzM4NjUKMzEzNjY1NjQKNjYzNzM2MzIKMzA2NjM5MzIKMzU2NTM2MzYKN2IzNzMxNGYKNDk0NDU0NTM
+
+STDIO17{66e529f0267fde61e8c50f340ae00a04}
+
+หรือจะเอา shellcode ไปรันก็ได้

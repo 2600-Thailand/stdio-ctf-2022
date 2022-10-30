@@ -1,0 +1,169 @@
+# Create Challenge
+
+Windows 7 SP1 x64
+
+
+https://learn.microsoft.com/sysinternals/downloads/livekd
+> Download: livekd64.exe
+
+Microsoft Windows SDK for Windows 7 and .NET Framework 4
+https://www.microsoft.com/en-us/download/confirmation.aspx?id=8279
+> Install: Debugging Tools for Windows 
+
+
+livekd64.exe
+y
+c:\Symbols
+
+kd> .dump /f C:\pagefile.sys.OLD
+
+
+# Solution
+git clone https://github.com/volatilityfoundation/volatility
+cd volatility/
+
+workon python2
+pip install pillow distorm3
+python vol.py -f ~/vbox_shared/system32/pagefile.sys.OLD --profile=Win7SP1x64 imageinfo
+
+
+mkdir ss
+python vol.py -f ~/vbox_shared/system32/pagefile.sys.OLD --profile=Win7SP1x64 screenshot -D ss/
+python vol.py -f ~/vbox_shared/system32/pagefile.sys.OLD --profile=Win7SP1x64 memdump -p 2492 --dump-dir=ss/
+
+GIMP plays with Offset/Width/Height.
+
+
+python vol.py -f ~/vbox_shared/system32/pagefile.sys.OLD --profile=Win7SP1x64 memdump --dump-dir=./ -p 3000
+strings -e l 3000.dmp |grep -E "[a-z0-9]{16}\}"
+
+# Step 1: Verify profile (can be bruteforced)
+python vol.py -f ~/vbox_shared/system32/pagefile.sys.OLD --profile=Win7SP1x64 imageinfo
+
+Volatility Foundation Volatility Framework 2.6.1
+INFO    : volatility.debug    : Determining profile based on KDBG search...
+          Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP0x64, Win2008R2SP1x64_24000, Win2008R2SP1x64_23418, Win2008R2SP1x64, Win7SP1x64_24000, Win7SP1x64_23418
+                     AS Layer1 : WindowsAMD64PagedMemory (Kernel AS)
+                     AS Layer2 : WindowsCrashDumpSpace64 (Unnamed AS)
+                     AS Layer3 : FileAddressSpace (/Users/pichaya/vbox_shared/system32/pagefile.sys.OLD)
+                      PAE type : No PAE
+                           DTB : 0x66c9000L
+                          KDBG : 0xea450L
+          Number of Processors : 1
+     Image Type (Service Pack) : 1
+                KPCR for CPU 0 : 0xfffff80002c43000L
+             KUSER_SHARED_DATA : 0xfffff78000000000L
+           Image date and time : 2022-10-25 15:50:29 UTC+0000
+     Image local date and time : 2022-10-25 22:50:29 +0700
+
+# Step 2: List process
+python vol.py -f ~/vbox_shared/system32/pagefile.sys.OLD --profile=Win7SP1x64 pslist
+
+Volatility Foundation Volatility Framework 2.6.1
+Offset(V)          Name                    PID   PPID   Thds     Hnds   Sess  Wow64 Start                          Exit
+------------------ -------------------- ------ ------ ------ -------- ------ ------ ------------------------------ ------------------------------
+0xfffffa800069d710 System                    4      0     91      496 ------      0 2022-10-25 15:39:38 UTC+0000
+0xfffffa800216fb00 smss.exe                268      4      2       29 ------      0 2022-10-25 15:39:39 UTC+0000
+0xfffffa8002407060 csrss.exe               352    344      8      449      0      0 2022-10-25 15:39:41 UTC+0000
+0xfffffa8001ab0790 wininit.exe             404    344      3       78      0      0 2022-10-25 15:39:41 UTC+0000
+0xfffffa8001ac5060 csrss.exe               416    396      9      221      1      0 2022-10-25 15:39:41 UTC+0000
+0xfffffa8001df6b00 winlogon.exe            464    396      3      117      1      0 2022-10-25 15:39:41 UTC+0000
+0xfffffa800267b8e0 services.exe            508    404      7      214      0      0 2022-10-25 15:39:41 UTC+0000
+0xfffffa800215b580 lsass.exe               516    404      7      569      0      0 2022-10-25 15:39:41 UTC+0000
+0xfffffa800267db00 lsm.exe                 524    404     11      147      0      0 2022-10-25 15:39:41 UTC+0000
+0xfffffa800268bb00 svchost.exe             628    508     11      360      0      0 2022-10-25 15:39:42 UTC+0000
+0xfffffa8002836860 svchost.exe             700    508      9      282      0      0 2022-10-25 15:39:42 UTC+0000
+0xfffffa8002569b00 svchost.exe             752    508     20      458      0      0 2022-10-25 15:39:42 UTC+0000
+0xfffffa80028ac760 svchost.exe             860    508     18      438      0      0 2022-10-25 15:39:43 UTC+0000
+0xfffffa8002ebe510 svchost.exe             912    508     13      553      0      0 2022-10-25 15:39:43 UTC+0000
+0xfffffa80028bf9b0 svchost.exe             936    508     33      959      0      0 2022-10-25 15:39:43 UTC+0000
+0xfffffa8001b9e060 audiodg.exe            1004    752      6      134      0      0 2022-10-25 15:39:43 UTC+0000
+0xfffffa80019fb9b0 svchost.exe             816    508     15      371      0      0 2022-10-25 15:39:43 UTC+0000
+0xfffffa8001b94060 spoolsv.exe            1172    508     14      282      0      0 2022-10-25 15:39:44 UTC+0000
+0xfffffa8001bd64b0 dwm.exe                1200    860      3       74      1      0 2022-10-25 15:39:44 UTC+0000
+0xfffffa8001c1e410 taskhost.exe           1220    508      8      207      1      0 2022-10-25 15:39:44 UTC+0000
+0xfffffa8001c3bb00 explorer.exe           1244   1188     33      914      1      0 2022-10-25 15:39:44 UTC+0000
+0xfffffa8001c745b0 svchost.exe            1292    508     21      307      0      0 2022-10-25 15:39:44 UTC+0000
+0xfffffa800266e3c0 vmtoolsd.exe           1456   1244      8      213      1      0 2022-10-25 15:39:46 UTC+0000
+0xfffffa8002017b00 svchost.exe            1496    508     10      146      0      0 2022-10-25 15:39:46 UTC+0000
+0xfffffa80022b95f0 VGAuthService.         1552    508      3       89      0      0 2022-10-25 15:39:46 UTC+0000
+0xfffffa8002882240 vm3dservice.ex         1756    508      4       60      0      0 2022-10-25 15:39:47 UTC+0000
+0xfffffa800287b740 vmtoolsd.exe           1776    508     13      325      0      0 2022-10-25 15:39:47 UTC+0000
+0xfffffa8002577b00 vm3dservice.ex         1816   1756      2       45      1      0 2022-10-25 15:39:47 UTC+0000
+0xfffffa80029e1750 svchost.exe            1984    508      6       92      0      0 2022-10-25 15:39:48 UTC+0000
+0xfffffa8001b1b6a0 WmiPrvSE.exe            896    628     10      203      0      0 2022-10-25 15:39:48 UTC+0000
+0xfffffa8002a54370 dllhost.exe            1528    508     15      201      0      0 2022-10-25 15:39:49 UTC+0000
+0xfffffa800125bb00 SearchIndexer.         2176    508     15      629      0      0 2022-10-25 15:39:52 UTC+0000
+0xfffffa80012a08e0 msdtc.exe              2252    508     14      156      0      0 2022-10-25 15:39:53 UTC+0000
+0xfffffa80012efb00 mspaint.exe            2492   1244      7      330      1      0 2022-10-25 15:39:54 UTC+0000
+0xfffffa800133e060 svchost.exe            2520    508      6      111      0      0 2022-10-25 15:39:54 UTC+0000
+0xfffffa80018fc060 notepad.exe            2752   1244      1       58      1      0 2022-10-25 15:39:57 UTC+0000
+0xfffffa8001e9e750 cmd.exe                2948   1244      1       23      1      0 2022-10-25 15:40:08 UTC+0000
+0xfffffa8001891700 WmiPrvSE.exe           2956    628     10      240      0      0 2022-10-25 15:40:09 UTC+0000
+0xfffffa8002abf4e0 conhost.exe            2988    416      2       57      1      0 2022-10-25 15:40:09 UTC+0000
+0xfffffa8000e02b00 svchost.exe             148    508      8      116      0      0 2022-10-25 15:41:48 UTC+0000
+0xfffffa8001266b00 sppsvc.exe              556    508      4      143      0      0 2022-10-25 15:41:49 UTC+0000
+0xfffffa8000e054b0 svchost.exe            1324    508     13      383      0      0 2022-10-25 15:41:49 UTC+0000
+0xfffffa80007305f0 livekd64.exe           1996   2948      2       61      1      0 2022-10-25 15:42:37 UTC+0000
+0xfffffa8000770340 kd.exe                  412   1996      2       32      1      0 2022-10-25 15:42:37 UTC+0000
+
+# Step 3: Get half of the flag
+python vol.py -f ~/vbox_shared/system32/pagefile.sys.OLD --profile=Win7SP1x64 memdump --dump-dir=./ -p 2752
+
+Volatility Foundation Volatility Framework 2.6.1
+************************************************************************
+Writing notepad.exe [  2752] to 2752.dmp
+
+
+# Step 4: grep regex second half flag
+
+strings -e l 2752.dmp |grep -E "[a-z0-9]{16}\}"
+f1f685e0ccdd81e0}cd
+f1f685e0ccdd81e0}
+
+# Step 5: Create vol.py screenshot
+
+mkdir ss
+python vol.py -f ~/vbox_shared/system32/pagefile.sys.OLD --profile=Win7SP1x64 screenshot -D ss/
+
+Volatility Foundation Volatility Framework 2.6.1
+Wrote ss/session_0.Service-0x0-3e4$.Default.png
+Wrote ss/session_0.Service-0x0-3e5$.Default.png
+Wrote ss/session_0.msswindowstation.mssrestricteddesk.png
+Wrote ss/session_0.Service-0x0-3e7$.Default.png
+Wrote ss/session_1.WinSta0.Default.png
+WARNING : volatility.debug    : 1\WinSta0\Disconnect has no windows
+
+Wrote ss/session_1.WinSta0.Winlogon.png
+Wrote ss/session_0.WinSta0.Default.png
+WARNING : volatility.debug    : 0\WinSta0\Disconnect has no windows
+
+WARNING : volatility.debug    : 0\WinSta0\Winlogon has no windows
+
+# Open "session_1.WinSta0.Default.png" -> get screen size -> 3841:1905
+
+# Step 6: Dump mspaint.exe process
+
+python vol.py -f ~/vbox_shared/system32/pagefile.sys.OLD --profile=Win7SP1x64 memdump -p 2492 --dump-dir=ss/
+
+Volatility Foundation Volatility Framework 2.6.1
+************************************************************************
+Writing mspaint.exe [  2492] to 2492.dmp
+
+# Step 7: Open in GIMP
+cd ss
+mv 2492.dmp 2492.data
+# open 2492.data in GIMP
+139556069
+5120
+746
+
+
+# Flag
+STDIO15{
+b2997fe4f95e93e2
+
+f1f685e0ccdd81e0}
+
+# เอาไว้เช็คว่า strings ไม่เจอ flag
+strings -e l ~/vbox_shared/system32/pagefile.sys.OLD |grep -E "STDIO" -A5 -B5

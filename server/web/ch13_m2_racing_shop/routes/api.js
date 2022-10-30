@@ -53,8 +53,8 @@ router.delete('/removeAllCoupon', async (req, res) => {
 
 router.delete('/coupon/:code', async (req, res) => {
     let code = req.params.code;
-    tmp[req.sessionID] = [];
     req.session.coupon = req.session.coupon.filter(obj => obj.code !== code);
+    tmp[req.sessionID] = req.session.coupon;
     return res.json({data: req.session.coupon});
 });
 
@@ -99,7 +99,6 @@ async function isClaimed(code, session) {
 }
 
 async function addCouponAmount(code, addAmount, session, id) {
-    //await Delay(); // For test purpose.
     const coupon = coupons["coupons"].find(x => x.code === code);
     const index = tmp[id].findIndex(e => e.code === code) > -1;
     

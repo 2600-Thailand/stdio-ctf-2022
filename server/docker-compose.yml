@@ -36,8 +36,8 @@ services:
       - FLAG=${FLAG_13}
       - PORT=1337
       - COOKIE_SECRET=${c13_COOKIE_SECRET}
-  ch14-web-m3-xss2sqli:
-    build: web/ch14_m3_xss2sqli
+  ch14-web-m3-semi-sec-app:
+    build: web/ch14_m3_semi_sec_app
     ports:
       - "10014:8000"
     environment:
@@ -54,11 +54,20 @@ services:
       - "10019:1337"
     environment:
       - FLAG=${FLAG_19}
-  ch20-misc-secret-shop:
-    build: misc/ch20_secret_shop
+  ch20-misc-lotteryv2:
+    build: misc/ch20_lottery_v2
+    ports:
+      - "10020:1337"
+    environment:
+      - PROD=true
+      - FLAG=${FLAG_20}
+      - CAPTCHA_SITE_KEY=${c14_CAPTCHA_SITE_KEY}
+      - CAPTCHA_SECRET_KEY=${c14_CAPTCHA_SECRET_KEY}
+  ch21-misc-secret-shop:
+    build: misc/ch21_secret_shop
     runtime: runc
     ports:
-      - "10020:3000"
+      - "10021:3000"
     environment:
       - FLAG=${FLAG_20}
   ch3-pwn-m2-lottery-predictor-game:

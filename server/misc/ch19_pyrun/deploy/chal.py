@@ -1,6 +1,5 @@
-blacklist = ["import", "upper", "lower", "open", "os", "system", "exit", "compile", "chr", "__import__", "object", "assert", "__builtins__", "exec", "eval", "_", "\\", "hex", "encode", "decode"]
-
 def check_blacklist(val):
+    blacklist = ["import", "upper", "lower", "open", "os", "system", "exit", "compile", "chr", "list", "__import__", "object", "assert", "__builtins__", "exec", "eval", "_", "\\", "hex", "encode", "decode", "help"]
     for keyword in blacklist:
         if keyword.lower() in val.lower():
             print("The command specified is not allowed!")
