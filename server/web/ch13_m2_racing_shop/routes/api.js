@@ -99,7 +99,6 @@ async function isClaimed(code, session) {
 }
 
 async function addCouponAmount(code, addAmount, session, id) {
-    //await Delay(); // For test purpose.
     const coupon = coupons["coupons"].find(x => x.code === code);
     const index = tmp[id].findIndex(e => e.code === code) > -1;
     
