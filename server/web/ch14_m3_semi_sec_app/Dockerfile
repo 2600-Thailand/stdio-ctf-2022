@@ -1,10 +1,9 @@
-FROM ubuntu:22.04 
+FROM debian:latest
 RUN apt-get update && apt-get -y install python3-pip
 COPY . /app
 COPY chromedriver /usr/local/bin/
 WORKDIR "/app"
 
-RUN apt-get install -y libcurl3-openssl-dev
 RUN apt install -y --allow-downgrades ./chrome.deb
 
 RUN pip install --no-cache-dir --upgrade pip \
