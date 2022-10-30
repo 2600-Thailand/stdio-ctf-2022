@@ -21,7 +21,7 @@ def pad(msg):
     return msg + b"\x00" * (16 - len(msg)%16)
 
 def entropy(n):
-    seed = int(time.time()) + random.randint(0,2**64)
+    seed = random.randint(0,2**256)
     random.seed(seed)
     return random.randbytes(n)
 
