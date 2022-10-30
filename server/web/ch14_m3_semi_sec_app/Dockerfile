@@ -4,7 +4,7 @@ COPY . /app
 COPY chromedriver /usr/local/bin/
 WORKDIR "/app"
 
-RUN apt-get install libcurl3-openssl-dev
+RUN apt-get install -y libcurl3-openssl-dev
 RUN apt install -y --allow-downgrades ./chrome.deb
 
 RUN pip install --no-cache-dir --upgrade pip \
