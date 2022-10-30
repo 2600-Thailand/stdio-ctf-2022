@@ -1,4 +1,4 @@
-blacklist = ["import", "upper", "lower", "open", "os", "system", "exit", "compile", "chr", "__import__", "object", "assert", "__builtins__", "exec", "eval", "_", "\\", "hex", "encode", "decode"]
+blacklist = ["import", "upper", "lower", "open", "os", "system", "exit", "compile", "chr", "list", "__import__", "object", "assert", "__builtins__", "exec", "eval", "_", "\\", "hex", "encode", "decode"]
 
 def check_blacklist(val):
     for keyword in blacklist:
