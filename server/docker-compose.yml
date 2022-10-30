@@ -36,7 +36,7 @@ services:
       - FLAG=${FLAG_13}
       - PORT=1337
       - COOKIE_SECRET=${c13_COOKIE_SECRET}
-  ch14-web-m3-xss2sqli:
+  ch14-web-m3-semi-sec-app:
     build: web/ch14_m3_semi_sec_app
     ports:
       - "10014:8000"
