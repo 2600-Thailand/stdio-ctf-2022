@@ -13,7 +13,9 @@ PROD = os.environ.get('PROD')
 SK = SigningKey.generate(curve=NIST256p, hashfunc=hashlib.sha1)
 VK = SK.verifying_key
 FLAG = os.environ.get('FLAG') or b'STDIO99{NOT_THAT_EASY}'
- 
+
+SEED = random.randint(0,2**512)
+
 def sanitize_number(n):
     return re.sub(r"[^0-9]", "", n)
 
@@ -21,8 +23,7 @@ def pad(msg):
     return msg + b"\x00" * (16 - len(msg)%16)
 
 def entropy(n):
-    seed = random.randint(0,2**256)
-    random.seed(seed)
+    random.seed(SEED)
     return random.randbytes(n)
 
 @app.route('/')
