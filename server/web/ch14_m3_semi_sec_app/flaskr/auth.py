@@ -18,7 +18,7 @@ import requests
 from flask import current_app
 
 from base64 import b64encode
-from os import urandom
+import secrets
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -79,7 +79,7 @@ def register():
     """
     if request.method == "POST":
         username = request.form["username"]
-        password = b64encode(urandom(32)).decode('utf-8')
+        password = secrets.token_hex(16)
 
         db = get_db()
         error = None
@@ -98,7 +98,7 @@ def register():
         except db.IntegrityError:
             # The username was already taken, which caused the
             # commit to fail. Show a validation error.
-            error = f"User {username} is already registered."
+            flash(f"User {username} is already registered.")
             return render_template("auth/register.html")
         else:
             # Success, go to the login page.
