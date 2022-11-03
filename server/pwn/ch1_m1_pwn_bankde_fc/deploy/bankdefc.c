@@ -4,7 +4,7 @@
 
 // gcc pwn1-bankdefc.c -o pwn1-bankdefc -fno-stack-protector -no-pie -z execstack
 void print_banner(){
-    printf("================= Dota2 Question Game =================\n");
+    printf("================= Bankde Question Game =================\n");
 }
 
 int question(){
