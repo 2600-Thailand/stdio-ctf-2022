@@ -28,7 +28,9 @@ upload-file:
 reupload-file:
   stage: maintenance
   script:
-    - if [ $REUPLOAD_FILE = "all" ]; then find file -name "run_*" -exec ./{} \; rm file/run_*; aws s3 cp --recursive file s3://stdio-ctf-2022/file --endpoint-url https://43d1e8a599807a9b1924410a2441412d.r2.cloudflarestorage.com; else ./file/$REUPLOAD_FILE; rm file/run_*; aws s3 cp --recursive file s3://stdio-ctf-2022/file --endpoint-url https://43d1e8a599807a9b1924410a2441412d.r2.cloudflarestorage.com; fi
+    - if [ $REUPLOAD_FILE = "all" ]; then find file -name "run_*" -exec ./{} \; else ./file/$REUPLOAD_FILE; fi
+    - rm file/run_*
+    - aws s3 cp --recursive file s3://stdio-ctf-2022/file --endpoint-url https://43d1e8a599807a9b1924410a2441412d.r2.cloudflarestorage.com
   only:
     variables:
       - $REUPLOAD_FILE
