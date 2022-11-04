@@ -1,5 +1,5 @@
 #!/bin/sh
-# version 1
+# version 2
 
 export CATEGORY="pwn"
 export CHALLENGE_NAME="ch3_m2_lottery_predictor_game"
