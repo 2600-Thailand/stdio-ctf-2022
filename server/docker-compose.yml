@@ -75,25 +75,25 @@ services:
     ports:
       - "10003:1337"
     environment:
-      - FLAG=${FLAG_3}
+      - FLAG=${FLAG_03}
   ch1-pwn-m1-pwn_bankde_fc:
     build: pwn/ch1_m1_pwn_bankde_fc
     runtime: runc
     ports:
       - "10001:1337"
     environment:
-      - FLAG=${FLAG_1}
+      - FLAG=${FLAG_01}
   ch2-pwn-m3-pwn_super_guesser:
     build: pwn/ch2_m3_super_guesser
     runtime: runc
     ports:
       - "10002:1337"
     environment:
-      - FLAG=${FLAG_2}
+      - FLAG=${FLAG_02}
   ch4-pwn-m4-pwn_super_guesser_v2:
     build: pwn/ch4_m4_super_guesser_v2
     runtime: runc
     ports:
       - "10004:1337"
     environment:
-      - FLAG=${FLAG_4}
+      - FLAG=${FLAG_04}
