@@ -32,8 +32,8 @@ auth.load_state_dict(secret)
 
 print("Welcome to AI-protected secret storage")
 secret = input("Enter secret: ")
-assert len(secret) == 41, "invalid secret format length"
-assert re.search("STDIO\d\d\{[0-9a-f]{32}\}", secret), "invalid secret format"
+assert len(secret) == 41, "Invalid secret format length"
+assert re.search("STDIO11{[0-9a-f]{32}\}", secret), "Invalid secret format"
 
 password_tensor = torch.tensor(bytearray(secret.encode()), dtype=torch.float32)
 ans = auth(password_tensor)
