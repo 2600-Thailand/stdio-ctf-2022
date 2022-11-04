@@ -5,7 +5,7 @@ import os
 import re
 import hashlib
 import random
-import time
+from hashlib import md5
 
 app = Flask(__name__)
 
@@ -14,7 +14,7 @@ SK = SigningKey.generate(curve=NIST256p, hashfunc=hashlib.sha1)
 VK = SK.verifying_key
 FLAG = os.environ.get('FLAG') or b'STDIO99{NOT_THAT_EASY}'
 
-SEED = random.randint(0,2**512)
+SEED = os.urandom(15)
 
 def sanitize_number(n):
     return re.sub(r"[^0-9]", "", n)
@@ -23,8 +23,12 @@ def pad(msg):
     return msg + b"\x00" * (16 - len(msg)%16)
 
 def entropy(n):
-    random.seed(SEED)
-    return random.randbytes(n)
+    # Our server has very low entropy pool. Dont use it too much !
+    r = SEED + os.urandom(1)
+    while len(r) < n:
+        r += md5(r).digest()
+    
+    return r[:n]
 
 @app.route('/')
 def index():

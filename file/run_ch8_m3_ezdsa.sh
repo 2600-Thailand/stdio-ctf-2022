@@ -1,5 +1,5 @@
 #!/bin/sh
-# version 1
+# version 3
 
 export CATEGORY="crypto"
 export CHALLENGE_NAME="ch8_m3_ezdsa"
