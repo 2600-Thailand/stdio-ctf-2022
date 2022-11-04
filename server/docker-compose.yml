@@ -42,7 +42,6 @@ services:
       - "10014:8000"
     environment:
       - PROD=true
-      - SECRET_KEY=${c14_SECRET_KEY}
       - ADMIN_PASSWORD=${c14_ADMIN_PASSWORD}
       - CTF_FLAG=${FLAG_14}
       - CAPTCHA_SITE_KEY=${c14_CAPTCHA_SITE_KEY}
