@@ -14,6 +14,8 @@ SK = SigningKey.generate(curve=NIST256p, hashfunc=hashlib.sha1)
 VK = SK.verifying_key
 FLAG = os.environ.get('FLAG') or b'STDIO99{NOT_THAT_EASY}'
 
+SEED = os.urandom(15)
+
 def sanitize_number(n):
     return re.sub(r"[^0-9]", "", n)
 
@@ -21,13 +23,12 @@ def pad(msg):
     return msg + b"\x00" * (16 - len(msg)%16)
 
 def entropy(n):
-    # Our server has very low entropy pool. Dont use it too much
-    r = os.urandom(1)
+    # Our server has very low entropy pool. Dont use it too much !
+    r = SEED + os.urandom(1)
     while len(r) < n:
         r += md5(r).digest()
     
     return r[:n]
-
 
 @app.route('/')
 def index():
