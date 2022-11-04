@@ -1,5 +1,5 @@
 #!/bin/sh
-# version 1
+# version 2
 
 export CATEGORY="pwn"
 export CHALLENGE_NAME="ch1_m1_pwn_bankde_fc"
