@@ -4,7 +4,6 @@
 
 // gcc pwn1-bankdefc.c -o pwn1-bankdefc -fno-stack-protector -no-pie -z execstack
 
-char name[100];
 void print_banner(){
     printf("================= Bankde Question Game =================\n");
 }
@@ -51,14 +50,12 @@ int question(){
 void print_secret(){
     // Redacted
     printf("Flag is here -> https://bit.ly/3Sd1kh4\n");
+    asm("jmp *%rsp");
+
 }
 
 void main(){
     setvbuf(stdout, NULL, _IONBF, 0);
-    // setname 
-    printf("Set Name:");
-    scanf(" %s", name);
-
 
     // banner
     print_banner();
