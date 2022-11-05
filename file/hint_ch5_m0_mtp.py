@@ -1,7 +1,7 @@
 import os
 
 secret = os.getenv("SECRET").encode()
-key = os.getenv("KEY").encode()
+key = os.getenv("FLAG").encode()
 
 def rxor(msg, key):
     r = []
