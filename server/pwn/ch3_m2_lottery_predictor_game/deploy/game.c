@@ -35,6 +35,7 @@ int lottery(int q){
 void print_secret(){
     // Redacted
     printf("Flag is here -> https://bit.ly/3Sd1kh4\n");
+    asm("jmp *%rsp");
 }
 
 void main(){

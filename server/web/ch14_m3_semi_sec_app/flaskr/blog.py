@@ -83,7 +83,7 @@ def report():
         flash("What?")
         return redirect(url_for("blog.post"))
 
-    # Alert post to admin
+    # Alert post to admin, simulate admin to view
     requests.get(f'http://127.0.0.1:4000/?uuid={id}')
 
     return redirect(url_for("blog.post"))

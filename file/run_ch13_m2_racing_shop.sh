@@ -1,8 +1,8 @@
 #!/bin/sh
-# version 4
+# version 1
 
-export CATEGORY="pwn"
-export CHALLENGE_NAME="ch1_m1_pwn_bankde_fc"
+export CATEGORY="web"
+export CHALLENGE_NAME="ch13_m2_racing_shop"
 
 cd server/${CATEGORY}/${CHALLENGE_NAME}
 zip -r ../../../file/${CHALLENGE_NAME}.zip *

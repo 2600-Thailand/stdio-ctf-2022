@@ -10,8 +10,8 @@
 {% block content %}
 <section>
   <form method="post" action="{{ url_for('blog.report') }}">
-      <label for="text">Report post to admin:</label>
-      <input class="input" name="uuid" id="uuid" onfocus="this.value=''" value="POST-UUID" required>
+      <label for="text">Report UUID post to admin:</label>
+      <input class="input" name="uuid" id="uuid" onfocus="this.value=''" placeholder="12345678-1234-abcd-abcd-1234567890ab" required>
       <div class="g-recaptcha" data-sitekey="{{ config['CAPTCHA_SITE_KEY'] }}"></div>
       <input type="submit" value="Report">
   </form>
